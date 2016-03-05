@@ -5,6 +5,7 @@ from chatapp import *
 import sys
 import os
 import aiml
+import random
 import time
 import socket
 from thread import *
@@ -31,6 +32,7 @@ class ChatApplication(QtGui.QMainWindow):
         # self.actionExit.triggered.connect(quit())
 
         self.user_list = []
+        self.previous_message = ""
 
     def load_brain(self):
 
@@ -47,14 +49,26 @@ class ChatApplication(QtGui.QMainWindow):
 
     def send_message(self):
 
-        message = str(self.ui.lineEdit_2.text())
-        self.ui.listWidget.addItem(message)
-        self.ui.lineEdit_2.clear()
-        self.respond(message)
+        current_message = str(self.ui.lineEdit_2.text())
+
+        #self.ui.lineEdit_2.clear()
+        if current_message.lower() == self.previous_message:
+            call_out = ["Please don't repeat yourself", "You are repeating yourself", "Theres no need for repetition", "Stop it", "Well thats annoying"]
+            self.ui.listWidget.addItem(random.choice(call_out))
+        if current_message == "":
+            pass
+            #add pop up window telling user to type text, null values is not allowed.
+
+        else:
+
+            self.ui.listWidget.addItem(self.user_list[0] + ": " + current_message)
+            self.previous_message = current_message.lower()
+            self.ui.lineEdit_2.clear()
+            self.respond(current_message)
 
     def respond(self, message):
         response = (self.kernel.respond(message))
-        self.ui.listWidget.addItem(response)
+        self.ui.listWidget.addItem(self.user_list[1] + ": " + response)
 
 
     def reload_brain(self):
