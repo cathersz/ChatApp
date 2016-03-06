@@ -36,7 +36,7 @@ class ChatApplication(QtGui.QMainWindow):
 
     def load_brain(self):
 
-        #change this to whereever your directory is
+        # change this to wherever your directory is
 
         os.chdir('C:\Users\user\Desktop\ChatApp')
 
@@ -49,27 +49,28 @@ class ChatApplication(QtGui.QMainWindow):
 
     def send_message(self):
 
-        current_message = str(self.ui.lineEdit_2.text())
+        message = str(self.ui.lineEdit_2.text())
+        current_message = message.lower()
 
-        #self.ui.lineEdit_2.clear()
-        if current_message.lower() == self.previous_message:
+        if current_message == self.previous_message:
+            self.ui.listWidget.addItem(self.user_list[0] + ": " + message)
             call_out = ["Please don't repeat yourself", "You are repeating yourself", "Theres no need for repetition", "Stop it", "Well thats annoying"]
-            self.ui.listWidget.addItem(random.choice(call_out))
+            self.ui.listWidget.addItem(self.user_list[1] + ": " + random.choice(call_out))
+            print (message,current_message, self.previous_message)
         if current_message == "":
             pass
-            #add pop up window telling user to type text, null values is not allowed.
+            # add pop up window telling user to type text, null values is not allowed.
 
-        else:
+        if current_message != self.previous_message:
 
-            self.ui.listWidget.addItem(self.user_list[0] + ": " + current_message)
-            self.previous_message = current_message.lower()
+            self.ui.listWidget.addItem(self.user_list[0] + ": " + message)
+            self.previous_message = current_message
             self.ui.lineEdit_2.clear()
-            self.respond(current_message)
+            self.respond(message)
 
     def respond(self, message):
         response = (self.kernel.respond(message))
         self.ui.listWidget.addItem(self.user_list[1] + ": " + response)
-
 
     def reload_brain(self):
 
@@ -89,7 +90,6 @@ class ChatApplication(QtGui.QMainWindow):
                 answer = "Connecting to user..."
                 self.ui.listWidget.addItem(answer)
 
-
                 ai_system = "Chelsea"
                 answer = "Connection Established"
                 self.ui.listWidget.addItem(answer)
@@ -98,6 +98,7 @@ class ChatApplication(QtGui.QMainWindow):
 
                 if str(self.ui.lineEdit.text()) in self.user_list:
 
+                    # change to pop up window telling user name already exists.
                     print "name already exists please choose another"
 
                 else:
@@ -112,7 +113,6 @@ class ChatApplication(QtGui.QMainWindow):
                     else:
                         pass
 
-
         except:
 
             pass
@@ -125,4 +125,3 @@ if __name__ == "__main__":
     myapp.load_brain()
     myapp.show()
     sys.exit(app.exec_())
-    
