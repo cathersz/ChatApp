@@ -1,0 +1,16 @@
+import time
+
+seconds = 60
+
+startTime = time.time()
+finishTime = startTime + seconds
+
+while time.time() < finishTime:
+
+    #show loops is running
+    print (".")
+
+    #wait for 1 second
+    time.sleep(1)
+
+print "Time is up!"

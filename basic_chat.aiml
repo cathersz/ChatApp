@@ -49,4 +49,11 @@
     </template>
     </category>
 
+    <category>
+        <pattern>* this course</pattern>
+        <template>
+            I think this course is superb!
+        </template>
+    </category>
+
 </aiml>
