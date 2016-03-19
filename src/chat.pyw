@@ -15,6 +15,7 @@ class ChatApplication(QtGui.QMainWindow):
 
     # setup window
     def __init__(self, parent=None):
+
         # setup the gui
         QtGui.QWidget.__init__(self, parent)
         self.ui = Ui_MainWindow()
@@ -29,10 +30,12 @@ class ChatApplication(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.clearLogs_Button, QtCore.SIGNAL('clicked()'), self.clear_logs)
         QtCore.QObject.connect(self.ui.connect_Button, QtCore.SIGNAL('clicked()'), self.connect)
 
-        # self.actionExit.triggered.connect(quit())
-
         self.user_list = []
         self.previous_message = ""
+
+        time.sleep(1)
+
+        # self.actionExit.triggered.connect(quit()
 
     def load_brain(self):
 
@@ -54,9 +57,10 @@ class ChatApplication(QtGui.QMainWindow):
 
         if current_message == self.previous_message:
             self.ui.listWidget.addItem(self.user_list[0] + ": " + message)
+            self.ui.lineEdit_2.clear()
             call_out = ["Please don't repeat yourself", "You are repeating yourself", "Theres no need for repetition", "Stop it", "Well thats annoying"]
             self.ui.listWidget.addItem(self.user_list[1] + ": " + random.choice(call_out))
-            print (message,current_message, self.previous_message)
+
         if current_message == "":
             pass
             # add pop up window telling user to type text, null values is not allowed.
@@ -79,6 +83,26 @@ class ChatApplication(QtGui.QMainWindow):
 
     def clear_logs(self):
         self.ui.listWidget.clear()
+
+    def timer(self):
+
+        # countdown in seconds
+        seconds = 30  # 5minutes
+
+        start_time = time.time()
+        end_time = start_time + seconds
+
+        #loop until the current system time is greater than the end time
+
+        while time.time() < end_time:
+
+            #wait for one sec
+            time.sleep(1)
+
+        print "Chelsea : Bored now, see you later!"
+
+        del self.user_list[1]
+
 
     def connect(self):
 
